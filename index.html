@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaiken · Proyección de Ventas 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+<style>
+:root{--wg:#6F6158;--wg-u:#9C9088;--wg-mid:#8A7D73;--wg-lt:#f0ede9;--wg-bg:#faf9f7;--p158:#F07C1A;--gold:#d4a574;--white:#fff;--smoke:#F4F4F2;--tm:#1a1a2e;--ts:#5a5a7a;--tl:#8888aa;--bd:#e2dcea;--gr:#1a7a4a;--gb:#eaf7f0;--re:#a01515;--rb:#fdf0f0;--ye:#7a5500;--yb:#fffbea;--sh:0 1px 4px rgba(0,0,0,.07);--shm:0 4px 16px rgba(0,0,0,.10);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--wg-bg);color:var(--tm);font-family:'Segoe UI',Arial,sans-serif;font-size:13px;line-height:1.5;}
+.hdr{background:var(--wg);padding:0 32px;display:flex;align-items:stretch;min-height:62px;border-bottom:3px solid var(--gold);}
+.hdr-brand{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:12px 22px 12px 0;border-right:1px solid rgba(255,255,255,.14);margin-right:22px;}
+.hdr-brand h1{font-size:17px;font-weight:700;color:#fff;letter-spacing:.12em;text-transform:uppercase;}
+.hdr-brand p{font-size:9.5px;color:rgba(255,255,255,.55);letter-spacing:.12em;text-transform:uppercase;}
+.hdr-meta{display:flex;align-items:center;gap:24px;flex:1;}
+.hdr-mi{display:flex;flex-direction:column;}
+.hdr-ml{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.42);}
+.hdr-mv{font-size:12px;color:rgba(255,255,255,.85);font-weight:500;}
+.hdr-bdg{margin-left:auto;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);border-radius:3px;padding:4px 12px;font-size:10px;color:rgba(255,255,255,.60);letter-spacing:.10em;text-transform:uppercase;align-self:center;}
+.tabs{background:var(--white);border-bottom:1px solid var(--bd);padding:0 32px;display:flex;align-items:flex-end;position:sticky;top:0;z-index:50;box-shadow:var(--sh);}
+.tb{padding:13px 20px;font-size:12px;font-weight:500;color:var(--ts);border:none;border-bottom:2px solid transparent;background:transparent;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.tb:hover{color:var(--wg);}
+.tb.active{color:var(--wg);border-bottom-color:var(--p158);font-weight:600;}
+.fbar{background:var(--white);border-bottom:1px solid var(--bd);padding:9px 32px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.flg{display:flex;align-items:center;gap:6px;}
+.fll{font-size:11px;color:var(--ts);font-weight:500;}
+select{background:var(--white);border:1px solid var(--bd);color:var(--tm);padding:5px 10px;border-radius:4px;font-size:12px;font-family:inherit;cursor:pointer;min-width:160px;}
+select:focus{outline:none;border-color:var(--wg-mid);}
+.brst{background:transparent;border:1px solid var(--bd);color:var(--ts);padding:5px 14px;border-radius:4px;font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s;}
+.brst:hover{border-color:var(--wg);color:var(--wg);}
+.fcnt{margin-left:auto;font-size:11px;color:var(--tl);background:var(--wg-lt);padding:3px 10px;border-radius:20px;}
+.fnote{display:none;font-size:10px;color:var(--p158);font-weight:600;background:rgba(240,124,26,.08);padding:3px 10px;border-radius:12px;}
+.fnote.on{display:inline-block;}
+.page{display:none;padding:24px 32px;}
+.page.active{display:block;}
+.kr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.kc{background:var(--white);border:1px solid var(--bd);border-radius:8px;padding:18px 20px;box-shadow:var(--sh);border-top:3px solid transparent;transition:border-top-color .2s;}
+.kc:hover{border-top-color:var(--gold);}
+.kl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tl);margin-bottom:7px;}
+.kv{font-size:24px;font-weight:700;color:var(--tm);margin-bottom:10px;}
+.kbs{display:flex;flex-wrap:wrap;gap:5px;}
+.badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:500;white-space:nowrap;}
+.badge.red{background:var(--rb);color:var(--re);}
+.badge.green{background:var(--gb);color:var(--gr);}
+.badge.yellow{background:var(--yb);color:var(--ye);}
+.badge.gray{background:#f0f0f0;color:#666;}
+.callout{background:linear-gradient(135deg,rgba(212,165,116,.09),rgba(212,165,116,.02));border-left:3px solid var(--gold);padding:14px 18px;margin:16px 0;border-radius:4px;font-size:12.5px;color:var(--tm);line-height:1.75;}
+.slbl{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--tl);margin:20px 0 12px;font-weight:600;}
+.card{background:var(--white);border:1px solid var(--bd);border-radius:8px;box-shadow:var(--sh);padding:20px;}
+.card.mb{margin-bottom:20px;}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;}
+.ct{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-bottom:16px;}
+.ct span{font-size:10px;font-weight:400;color:var(--tl);margin-left:8px;}
+.dtb{width:100%;border-collapse:collapse;font-size:12px;}
+.dtb th{background:var(--smoke);padding:9px 13px;font-size:9.5px;font-weight:600;text-align:left;text-transform:uppercase;letter-spacing:.07em;color:var(--ts);border-bottom:1px solid var(--bd);}
+.dtb td{padding:9px 13px;border-bottom:1px solid rgba(0,0,0,.03);}
+.dtb tr:hover{background:#f8f7f5;}
+.dtb tr:last-child td{border-bottom:none;}
+.dtb th.r,.dtb td.r{text-align:right;}
+.dtb strong{font-weight:600;}
+.ecds{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.ecd{background:var(--white);border:1px solid var(--bd);border-radius:8px;padding:14px 16px;box-shadow:var(--sh);border-top:3px solid #ccc;}
+.ecd.part{border-top-style:dashed;}
+.el{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tl);margin-bottom:6px;}
+.ev{font-size:18px;font-weight:700;color:var(--tm);margin-bottom:6px;}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.mc{background:var(--white);border:1px solid var(--bd);border-radius:10px;overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s;}
+.mc:hover{box-shadow:var(--shm);}
+.mch{padding:13px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--bd);}
+.mav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;letter-spacing:.5px;}
+.mn{font-size:12px;font-weight:600;color:var(--tm);}
+.mr{font-size:10px;color:var(--tl);margin-top:1px;}
+.ms{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;margin-left:auto;}
+.mb2{padding:13px 16px;}
+.mkr{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:11px;}
+.mk{text-align:center;}
+.mkv{font-size:14px;font-weight:700;color:var(--tm);line-height:1.2;}
+.mkl{font-size:9px;color:var(--tl);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+.mpw{margin-bottom:10px;}
+.mpl{display:flex;justify-content:space-between;font-size:9px;color:var(--tl);margin-bottom:3px;}
+.mpt{height:5px;background:#f0ede9;border-radius:3px;overflow:hidden;}
+.mpf{height:100%;border-radius:3px;transition:width .5s;}
+.mbg{display:flex;flex-wrap:wrap;gap:4px;}
+.mmk{font-size:9px;color:var(--tl);margin-top:7px;line-height:1.4;}
+/* INSIGHTS */
+.iw{max-width:1100px;}
+.isig{background:linear-gradient(135deg,var(--wg) 0%,#4e453c 100%);border-radius:10px;padding:22px 28px;margin-bottom:24px;color:#fff;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;}
+.isigt{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.55);margin-bottom:6px;}
+.isigb{font-size:13.5px;line-height:1.70;color:rgba(255,255,255,.90);}
+.isigb strong{color:#fff;}
+.isigk{display:flex;flex-direction:column;gap:10px;text-align:right;}
+.ikb{background:rgba(255,255,255,.10);border-radius:6px;padding:8px 14px;min-width:130px;}
+.ikv{font-size:18px;font-weight:700;color:#fff;}
+.ikl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);margin-top:1px;}
+.iks{font-size:10px;color:rgba(255,255,255,.70);margin-top:3px;font-weight:500;}
+.icls{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+.isec{}
+.isech{display:flex;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:14px;border-bottom:2px solid var(--bd);}
+.isdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.isect{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.10em;color:var(--tm);}
+.isecs{font-size:10px;color:var(--tl);margin-left:4px;}
+.irow{display:flex;align-items:baseline;gap:8px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.04);}
+.irow:last-child{border-bottom:none;}
+.iflag{font-size:15px;flex-shrink:0;line-height:1;margin-top:1px;}
+.iname{font-size:12px;font-weight:600;color:var(--tm);flex:1;}
+.ival{font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.isub{font-size:10px;color:var(--tl);margin-top:1px;display:block;}
+.izs{}
+.izsh{display:flex;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:14px;border-bottom:2px solid var(--bd);}
+.zrow{display:grid;grid-template-columns:100px 1fr 70px 65px;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.04);}
+.zrow:last-child{border-bottom:none;}
+.znm{font-size:11px;font-weight:600;color:var(--tm);}
+.ztr{height:7px;background:#f0ede9;border-radius:4px;overflow:hidden;}
+.zfi{height:100%;border-radius:4px;}
+.zfo{font-size:11px;font-weight:600;color:var(--tm);text-align:right;}
+.zpt{font-size:10px;color:var(--tl);text-align:right;}
+.ipx{background:var(--white);border:1px solid var(--bd);border-radius:8px;padding:20px 24px;margin-bottom:16px;}
+.ipxg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:14px;}
+.ipxb{padding:12px;background:var(--smoke);border-radius:6px;}
+.ipxv{font-size:17px;font-weight:700;color:var(--tm);}
+.ipxl{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--tl);margin-top:2px;}
+.ipxn{font-size:10px;margin-top:4px;font-weight:500;}
+@media(max-width:1100px){.mg{grid-template-columns:repeat(2,1fr);}.kr{grid-template-columns:repeat(2,1fr);}.ecds{grid-template-columns:repeat(3,1fr);}.icls{grid-template-columns:1fr;}.isig{grid-template-columns:1fr;}.ipxg{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.hdr,.tabs,.page{padding-left:16px;padding-right:16px;}.kr{grid-template-columns:1fr;}.mg{grid-template-columns:1fr;}.ecds{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-brand"><h1>Kaiken</h1><p>Proyección de Ventas</p></div>
+  <div class="hdr-meta">
+    <div class="hdr-mi"><span class="hdr-ml">Período</span><span class="hdr-mv" id="hdr-p">YTD al 27 de Abril 2026</span></div>
+  </div>
+  <div class="hdr-bdg">SEMANA <span id="hdr-s"></span></div>
+</div>
+<div class="tabs">
+  <button class="tb active" onclick="showPage('resumen',this)">📊 Resumen Ejecutivo</button>
+  <button class="tb" onclick="showPage('estacionalidad',this)">📈 Estacionalidad</button>
+  <button class="tb" onclick="showPage('managers',this)">👤 Export Managers</button>
+  <button class="tb" onclick="showPage('insights',this)">💡 Insights</button>
+</div>
+<div class="fbar">
+  <div class="flg"><label class="fll">Zona:</label><select id="fZ" onchange="applyFilters()"><option value="ALL">Todas</option></select></div>
+  <div class="flg"><label class="fll">Manager:</label><select id="fM" onchange="applyFilters()"><option value="ALL">Todos</option></select></div>
+  <button class="brst" onclick="resetFilters()">Limpiar filtros</button>
+  <span class="fnote" id="fnote">Filtro activo</span>
+  <div class="fcnt" id="fcnt"></div>
+</div>
+<!-- RESUMEN -->
+<div class="page active" id="page-resumen">
+  <div class="slbl" id="slbl" style="font-size:9px;letter-spacing:.16em;margin-bottom:8px"></div>
+  <div class="kr">
+    <div class="kc" style="border-top-color:var(--gold)"><div class="kl">Cajas · Abril 2026</div><div class="kv" id="k-ca">—</div></div>
+    <div class="kc" style="border-top-color:var(--gold)"><div class="kl">Precio Prom. · Abril 2026</div><div class="kv" id="k-pa">—</div></div>
+    <div class="kc" style="border-top-color:var(--gold)"><div class="kl">FOB USD · Abril 2026</div><div class="kv" id="k-fa">—</div></div>
+  </div>
+  <div class="slbl" style="font-size:9px;letter-spacing:.15em;margin-bottom:8px">YTD ACUMULADO 2026</div>
+  <div class="kr">
+    <div class="kc"><div class="kl">Cajas 9L · YTD</div><div class="kv" id="k-cy">—</div><div class="kbs"><span class="badge red" id="k-ca2">—</span><span class="badge red" id="k-cp">—</span></div></div>
+    <div class="kc"><div class="kl">Precio Promedio · YTD</div><div class="kv" id="k-py">—</div><div class="kbs"><span class="badge yellow" id="k-pp">—</span><span class="badge yellow" id="k-p25">—</span></div></div>
+    <div class="kc"><div class="kl">FOB USD · YTD</div><div class="kv" id="k-fy">—</div><div class="kbs"><span class="badge red" id="k-fp">—</span><span class="badge red" id="k-f25">—</span></div></div>
+  </div>
+  <div class="callout" id="callout">Cargando...</div>
+  <div class="slbl">Top 10 Mercados · por Presupuesto Anual 2026</div>
+  <div class="card mb">
+    <table class="dtb"><thead><tr><th style="width:26px">#</th><th>Mercado</th><th class="r">Cajas YTD</th><th class="r">FOB YTD 2026</th><th>FOB YTD 2026 vs PPTO</th><th>FOB YTD 2026 vs 2025</th><th class="r">$/caja</th></tr></thead><tbody id="t10b"></tbody></table>
+  </div>
+</div>
+<!-- ESTACIONALIDAD -->
+<div class="page" id="page-estacionalidad">
+  <div class="ecds" id="ecds"></div>
+  <div class="g2">
+    <div class="card"><div class="ct">FOB USD Mensual · 2026 vs Presupuesto</div><div style="height:260px"><canvas id="cFM"></canvas></div></div>
+    <div class="card"><div class="ct">Cajas Mensuales · 2026 vs Presupuesto</div><div style="height:260px"><canvas id="cCM"></canvas></div></div>
+  </div>
+  <div class="card mb"><div class="ct">Precio Promedio por Mes · 2026 vs 2025</div><div style="height:200px"><canvas id="cPM"></canvas></div></div>
+  <div class="card"><div class="ct">FOB Acumulado YTD · 2026 vs Presupuesto <span>Seguimiento de desvío</span></div><div style="height:200px"><canvas id="cFA"></canvas></div></div>
+</div>
+<!-- MANAGERS -->
+<div class="page" id="page-managers">
+  <div class="slbl">Performance YTD Abril · Export Managers</div>
+  <div class="mg" id="mgc"></div>
+  <div class="slbl">Detalle · Acumulado YTD Abril 2026</div>
+  <div class="card mb">
+    <table class="dtb"><thead><tr><th>Export Manager</th><th class="r">Cajas YTD</th><th class="r">vs Ppto Cj</th><th class="r">vs 2025 Cj</th><th class="r">$/caja</th><th class="r">FOB YTD</th><th class="r">FOB Ppto</th><th class="r">vs Ppto FOB</th><th class="r">vs 2025 FOB</th></tr></thead><tbody id="mgb"></tbody></table>
+  </div>
+</div>
+<!-- INSIGHTS -->
+<div class="page" id="page-insights">
+  <div class="iw">
+    <div class="isig" id="isig">
+      <div><div class="isigb" id="isigb">Cargando...</div></div>
+      <div class="isigk" id="isigk"></div>
+    </div>
+    <div class="izs" style="margin-bottom:24px">
+      <div class="izsh"><div class="isdot" style="background:var(--wg)"></div><span class="isect">Distribución FOB por Región</span><span class="isecs">— participación y desvío vs plan</span></div>
+      <div id="zrows"></div>
+    </div>
+    <div class="icls">
+      <div class="isec"><div class="isech"><div class="isdot" style="background:var(--gr)"></div><span class="isect">Mercados sobre plan</span></div><div id="iwins"></div></div>
+      <div class="isec"><div class="isech"><div class="isdot" style="background:var(--re)"></div><span class="isect">Mercados bajo rendimiento</span></div><div id="irisks"></div></div>
+    </div>
+    <div class="ipx">
+      <div class="isech" style="border-bottom-color:var(--bd);padding-bottom:8px;margin-bottom:0"><div class="isdot" style="background:var(--p158)"></div><span class="isect">Análisis de precio y mix</span></div>
+      <div class="ipxg" id="ipxg"></div>
+    </div>
+  </div>
+</div>
+<script>
+const SEMANA=18;
+const MARKETS=[
+  {zona:'N. America',  mercado:'Usa',          flag:'🇺🇸',mgr:'Ana Correas',        ppto_anual:13940.08,cajas_ytd:2631, cajas_2025:7122,  cajas_ppto:4566.58,precio_ytd:76.44,fob_ytd:201121.72,fob_ppto:301368.71,fob_2025:578996.69,fob_m:[64890,35959,100273,0,0],  cajas_m:[700,700,1231,0,0]},
+  {zona:'Europa',      mercado:'Inglaterra',    flag:'🇬🇧',mgr:'Julieta Piccolella',ppto_anual:13200.10,cajas_ytd:5883, cajas_2025:2748.5,cajas_ppto:4324.17,precio_ytd:55.45,fob_ytd:326194.02,fob_ppto:222056.74,fob_2025:133627.60,fob_m:[96694,54086,44325,131089,23445],cajas_m:[1520,1232,891,2241,350]},
+  {zona:'S. America',  mercado:'Brasil',        flag:'🇧🇷',mgr:'Julieta Piccolella',ppto_anual:12008.90,cajas_ytd:570,  cajas_2025:2140.8,cajas_ppto:3933.95,precio_ytd:101.16,fob_ytd:57660.00,fob_ppto:319123.81,fob_2025:182681.00,fob_m:[57660,0,0,0,0],         cajas_m:[570,0,0,0,0]},
+  {zona:'N. America',  mercado:'Canada',        flag:'🇨🇦',mgr:'Isidora Rodriguez', ppto_anual:11838.98,cajas_ytd:4144, cajas_2025:2058,  cajas_ppto:3878.29,precio_ytd:63.14,fob_ytd:261642.25,fob_ppto:243741.33,fob_2025:127768.07,fob_m:[127835,33981,55205,44622,67123],cajas_m:[2002,560,854,728,1120]},
+  {zona:'Europa',      mercado:'Alemania',      flag:'🇩🇪',mgr:'Julieta Piccolella',ppto_anual:10520.88,cajas_ytd:3210, cajas_2025:6026,  cajas_ppto:3446.50,precio_ytd:52.08,fob_ytd:167182.56,fob_ppto:188449.03,fob_2025:321171.15,fob_m:[46796,55762,0,64625,31654],cajas_m:[840,1005,0,1365,250]},
+  {zona:'Asia',        mercado:'Japón',         flag:'🇯🇵',mgr:'Juan Yañez',         ppto_anual:9402.14, cajas_ytd:5180, cajas_2025:5385,  cajas_ppto:3080.01,precio_ytd:62.93,fob_ytd:325976.00,fob_ppto:196445.18,fob_2025:333814.52,fob_m:[47596,40807,44021,193552,0],cajas_m:[590,630,663,3298,0]},
+  {zona:'Europa',      mercado:'Holanda',       flag:'🇳🇱',mgr:'Julieta Piccolella',ppto_anual:6496.82, cajas_ytd:1850, cajas_2025:806,   cajas_ppto:2128.29,precio_ytd:59.15,fob_ytd:109427.16,fob_ppto:123446.04,fob_2025:39399.40, fob_m:[70299,0,0,39128,0],       cajas_m:[1278,0,0,573,0]},
+  {zona:'Europa',      mercado:'Finlandia',     flag:'🇫🇮',mgr:'Julieta Piccolella',ppto_anual:5219.92, cajas_ytd:2090, cajas_2025:1990,  cajas_ppto:1709.98,precio_ytd:53.33,fob_ytd:111456.98,fob_ppto:87467.83, fob_2025:97545.84, fob_m:[0,51734,0,59723,0],        cajas_m:[0,1000,0,1090,0]},
+  {zona:'Asia',        mercado:'Indonesia',     flag:'🇮🇩',mgr:'Juan Yañez',         ppto_anual:3032.02, cajas_ytd:802,  cajas_2025:897,   cajas_ppto:993.25, precio_ytd:60.84,fob_ytd:48790.58, fob_ppto:59924.55, fob_2025:56167.13, fob_m:[0,0,0,48791,0],           cajas_m:[0,0,0,802,0]},
+  {zona:'Medio Oriente',mercado:'Emiratos',     flag:'🇦🇪',mgr:'Juan Yañez',         ppto_anual:2756.96, cajas_ytd:317.5,cajas_2025:620,   cajas_ppto:903.14, precio_ytd:87.49,fob_ytd:27778.15, fob_ppto:78927.22, fob_2025:57148.40, fob_m:[27778,0,0,0,0],           cajas_m:[318,0,0,0,0]},
+  {zona:'Europa',      mercado:'Hungría',       flag:'🇭🇺',mgr:'Juan Pablo Velasco',ppto_anual:2605.26, cajas_ytd:1910, cajas_2025:1311.8,cajas_ppto:853.45, precio_ytd:67.07,fob_ytd:128063.08,fob_ppto:54459.51, fob_2025:77239.59, fob_m:[84587,0,0,43476,0],        cajas_m:[1261,0,0,649,0]},
+  {zona:'S. America',  mercado:'Argentina',     flag:'🇦🇷',mgr:'Jorge Muñoz',        ppto_anual:7049.90, cajas_ytd:910.7,cajas_2025:1889,  cajas_ppto:2309.45,precio_ytd:59.48,fob_ytd:54165.17, fob_ppto:137293.83,fob_2025:102156.02,fob_m:[3588,16079,12610,21889,0],cajas_m:[65,270,275,302,0]},
+  {zona:'S. America',  mercado:'Brasil (JPV)',  flag:'🇧🇷',mgr:'Juan Pablo Velasco',ppto_anual:1952.24, cajas_ytd:376,  cajas_2025:706.5, cajas_ppto:639.52, precio_ytd:60.05,fob_ytd:22580.62, fob_ppto:46066.48, fob_2025:42795.20, fob_m:[22581,0,0,0,0],           cajas_m:[376,0,0,0,0]},
+  {zona:'Europa',      mercado:'Polonia',       flag:'🇵🇱',mgr:'Juan Pablo Velasco',ppto_anual:1153.96, cajas_ytd:910,  cajas_2025:140,   cajas_ppto:378.02, precio_ytd:82.36,fob_ytd:74948.98, fob_ppto:24753.66, fob_2025:5961.80,  fob_m:[0,0,74949,0,0],           cajas_m:[0,0,910,0,0]},
+  {zona:'Asia',        mercado:'Malasia',       flag:'🇲🇾',mgr:'Juan Yañez',         ppto_anual:892.76,  cajas_ytd:381,  cajas_2025:267.25,cajas_ppto:292.46, precio_ytd:89.52,fob_ytd:34105.70, fob_ppto:21679.99, fob_2025:27328.90, fob_m:[6791,0,0,27315,34034],     cajas_m:[81,0,0,300,448]},
+  {zona:'Asia',        mercado:'Corea',         flag:'🇰🇷',mgr:'Juan Yañez',         ppto_anual:1616.94, cajas_ytd:2682, cajas_2025:150,   cajas_ppto:529.69, precio_ytd:53.69,fob_ytd:144002.98,fob_ppto:36940.77, fob_2025:6615.00,  fob_m:[58990,0,85013,0,0],       cajas_m:[1202,0,1480,0,0]},
+  {zona:'Europa',      mercado:'Chipre',        flag:'🇨🇾',mgr:'Juan Pablo Velasco',ppto_anual:706.88,  cajas_ytd:400,  cajas_2025:442.5, cajas_ppto:231.56, precio_ytd:55.37,fob_ytd:22148.58, fob_ppto:12921.87, fob_2025:23491.01, fob_m:[0,22149,0,0,0],           cajas_m:[0,400,0,0,0]},
+  {zona:'Europa',      mercado:'Eslovaquia',    flag:'🇸🇰',mgr:'Juan Pablo Velasco',ppto_anual:676.52,  cajas_ytd:230,  cajas_2025:329,   cajas_ppto:221.62, precio_ytd:59.20,fob_ytd:13615.14, fob_ppto:13103.23, fob_2025:22217.35, fob_m:[13615,0,0,0,0],           cajas_m:[230,0,0,0,0]},
+  {zona:'Asia',        mercado:'China',         flag:'🇨🇳',mgr:'Jason Li',           ppto_anual:899.94,  cajas_ytd:820,  cajas_2025:0,     cajas_ppto:294.81, precio_ytd:80.21,fob_ytd:65775.60, fob_ppto:27163.13, fob_2025:0,         fob_m:[0,16500,49276,0,0],       cajas_m:[0,110,710,0,0]},
+  {zona:'Oceania',     mercado:'Tahití',        flag:'🇵🇫',mgr:'Patricia Osenga',    ppto_anual:664.92,  cajas_ytd:310,  cajas_2025:405,   cajas_ppto:217.82, precio_ytd:50.94,fob_ytd:15790.00, fob_ppto:11751.81, fob_2025:20140.00, fob_m:[15790,0,0,0,0],           cajas_m:[310,0,0,0,0]},
+  {zona:'N. America',  mercado:'México',        flag:'🇲🇽',mgr:'Ana Correas',        ppto_anual:586.02,  cajas_ytd:552.5,cajas_2025:101.5, cajas_ppto:191.97, precio_ytd:67.30,fob_ytd:37185.70, fob_ppto:14318.14, fob_2025:7091.50,  fob_m:[0,37186,0,0,0],           cajas_m:[0,553,0,0,0]},
+  {zona:'C. America',  mercado:'Costa Rica',    flag:'🇨🇷',mgr:'Patricia Osenga',    ppto_anual:313.06,  cajas_ytd:297.5,cajas_2025:445,   cajas_ppto:102.55, precio_ytd:77.31,fob_ytd:23000.00, fob_ppto:7770.29,  fob_2025:31918.00, fob_m:[8175,0,4625,10200,0],     cajas_m:[115,0,63,120,0]},
+  {zona:'C. America',  mercado:'Panamá',        flag:'🇵🇦',mgr:'Patricia Osenga',    ppto_anual:150.08,  cajas_ytd:217.5,cajas_2025:150,   cajas_ppto:49.16,  precio_ytd:77.70,fob_ytd:16900.00, fob_ppto:3243.11,  fob_2025:9900.00,  fob_m:[0,0,16900,0,0],           cajas_m:[0,0,218,0,0]},
+  {zona:'Caribe',      mercado:'Islas Cayman',  flag:'🇰🇾',mgr:'Patricia Osenga',    ppto_anual:174.94,  cajas_ytd:168,  cajas_2025:168,   cajas_ppto:57.31,  precio_ytd:83.33,fob_ytd:14000.00, fob_ppto:3811.47,  fob_2025:11088.00, fob_m:[0,14000,0,0,0],           cajas_m:[0,168,0,0,0]},
+  {zona:'Caribe',      mercado:'Saint Marteen', flag:'🇸🇽',mgr:'Patricia Osenga',    ppto_anual:228.04,  cajas_ytd:147,  cajas_2025:210,   cajas_ppto:74.70,  precio_ytd:92.00,fob_ytd:13524.00, fob_ppto:5916.52,  fob_2025:13860.00, fob_m:[13524,0,0,0,0],           cajas_m:[147,0,0,0,0]},
+  {zona:'Asia',        mercado:'Singapur',      flag:'🇸🇬',mgr:'Juan Yañez',         ppto_anual:393.10,  cajas_ytd:222,  cajas_2025:100,   cajas_ppto:128.77, precio_ytd:59.89,fob_ytd:13295.90, fob_ppto:9382.09,  fob_2025:7356.50,  fob_m:[7555,2870,2871,0,0],      cajas_m:[102,60,60,0,0]},
+  {zona:'S. America',  mercado:'Turismo',       flag:'🇨🇱',mgr:'Ana Correas',        ppto_anual:999.98,  cajas_ytd:189.4,cajas_2025:352.6, cajas_ppto:327.59, precio_ytd:277.95,fob_ytd:52640.57,fob_ppto:86394.74, fob_2025:91680.46, fob_m:[13211,16280,23149,0,0],    cajas_m:[53,62,74,0,0]},
+  {zona:'Europa',      mercado:'Ucrania',       flag:'🇺🇦',mgr:'Isidora Rodriguez',  ppto_anual:561.84,  cajas_ytd:186,  cajas_2025:184,   cajas_ppto:184.06, precio_ytd:50.72,fob_ytd:9434.45,  fob_ppto:10436.24, fob_2025:8333.16,  fob_m:[0,9434,0,0,0],            cajas_m:[0,186,0,0,0]},
+  {zona:'Asia',        mercado:'Maldivas',      flag:'🇲🇻',mgr:'Isidora Rodriguez',  ppto_anual:580.00,  cajas_ytd:285,  cajas_2025:230,   cajas_ppto:190.00, precio_ytd:55.26,fob_ytd:15750.00, fob_ppto:9310.00,  fob_2025:11270.00, fob_m:[15750,0,0,0,0],           cajas_m:[285,0,0,0,0]},
+];
+const MANAGERS=[
+  {n:'Julieta Piccolella',i:'JP',cy:13603,fy:771921,fp:940543,f25:774425,cp:14990,c25:13710,px:56.75,pa:4424700,mkts:['Inglaterra','Alemania','Finlandia','Holanda','Brasil'],z:'Europa + S.America'},
+  {n:'Juan Yañez',        i:'JY',cy:9990, fy:619026,fp:446595,f25:531698,cp:6561, c25:8066, px:61.97,pa:2048900,mkts:['Japón','Corea','Indonesia','Malasia','Emiratos','Singapur'],z:'Asia + Medio Oriente'},
+  {n:'Isidora Rodriguez', i:'IR',cy:4615, fy:286827,fp:263488,f25:147371,cp:4252, c25:2472, px:62.15,pa:1196300,mkts:['Canadá','Maldivas','Ucrania'],z:'N. America + Eur. Este'},
+  {n:'Ana Correas',       i:'AC',cy:3373, fy:290948,fp:402082,f25:677769,cp:5086, c25:7591, px:86.26,pa:1744000,mkts:['USA','México','Turismo'],z:'N. America + C. America'},
+  {n:'Juan Pablo Velasco',i:'JPV',cy:3826,fy:261356,fp:151305,f25:171705,cp:2324, c25:2929, px:68.32,pa:735300, mkts:['Hungría','Polonia','Chipre','Brasil','Eslovaquia'],z:'Europa Central'},
+  {n:'Patricia Osenga',   i:'PO',cy:1740, fy:122257,fp:66689, f25:130416,cp:1034, c25:2073, px:70.26,pa:342700, mkts:['Tahití','Costa Rica','Panamá','Barbados','Cayman','+ 8 más'],z:'Caribe + C. America + Oceanía'},
+  {n:'Jason Li',          i:'JL',cy:820,  fy:65776, fp:27163, f25:0,     cp:295,  c25:0,    px:80.21,pa:128600, mkts:['China'],z:'Asia (China)'},
+  {n:'Jorge Muñoz',       i:'JM',cy:911,  fy:54165, fp:137294,f25:102156,cp:2309, c25:1889, px:59.48,pa:607200, mkts:['Argentina'],z:'S. America'},
+  {n:'Daniela Rojas',     i:'DR',cy:0,    fy:0,     fp:8756,  f25:7688,  cp:74,   c25:84,   px:0,    pa:47300,  mkts:['Puerto Rico','Bolivia'],z:'Caribe + S. America'},
+  {n:'Evelyn Ramirez',    i:'ER',cy:0,    fy:0,     fp:46811, f25:45075, cp:540,  c25:623,  px:0,    pa:226200, mkts:['Chile'],z:'Chile'},
+];
+const MC={'Julieta Piccolella':'#4A7C8E','Juan Yañez':'#D4601A','Isidora Rodriguez':'#5E8A5E','Ana Correas':'#8B5C9E','Juan Pablo Velasco':'#2B6CB0','Patricia Osenga':'#B07A2B','Jason Li':'#C44569','Jorge Muñoz':'#6B705C','Daniela Rojas':'#7B8794','Evelyn Ramirez':'#556B8D'};
+const MTL={labels:['Enero','Febrero','Marzo','Abril','Mayo'],fob26:[797644.83,440814.70,542871.89,690909.58,202255.13],fob25:[639004.61,791876.89,661253.41,679222.36,722104.98],fobP:[585079.54,731349.42,731349.42,731349.42,731349.42],cajas26:[12140.68,7339.77,7850.94,11545.17,2801.75],cajas25:[9550.62,12408.55,9349.71,12115.33,11366.50],cajasP:[9000.95,11251.13,11251.13,11251.13,11251.13],px26:[65.70,60.06,69.15,59.84,72.19],px25:[66.91,65.16,66.82,64.68,64.44]};
+const TALL={abril:{cajas:11545.17,precio:59.844,fob:690909.58},ytd:{cajas:38876.56,cajas_ppto:42754.34,cajas_2025:42846.70,precio:63.593,precio_ppto:65.002,precio_2025:64.681,fob:2472275.18,fob_ppto:2779127.80,fob_2025:2771357.27}};
+let aZ='ALL',aM='ALL',CH={};
+const f=(n,d=0)=>(+n||0).toLocaleString('es-CL',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fM=n=>Math.abs(n)>=1e6?'$'+(n/1e6).toLocaleString('es-CL',{minimumFractionDigits:2,maximumFractionDigits:2})+'M':Math.abs(n)>=1e3?'$'+(n/1e3).toLocaleString('es-CL',{minimumFractionDigits:0,maximumFractionDigits:0})+'K':'$'+f(n,0);
+const ps=(n,d=1)=>(n>=0?'▲ +':'▼ ')+Math.abs(n).toFixed(d)+'%';
+const cl=n=>n>=0?'green':'red';
+function getFl(){return MARKETS.filter(d=>(aZ==='ALL'||d.zona===aZ)&&(aM==='ALL'||d.mgr===aM));}
+function cT(fl){
+  const isAll=aZ==='ALL'&&aM==='ALL';if(isAll)return TALL;
+  const fob=fl.reduce((s,d)=>s+d.fob_ytd,0),fp=fl.reduce((s,d)=>s+d.fob_ppto,0),f25=fl.reduce((s,d)=>s+d.fob_2025,0);
+  const caj=fl.reduce((s,d)=>s+d.cajas_ytd,0),cp=fl.reduce((s,d)=>s+d.cajas_ppto,0),c25=fl.reduce((s,d)=>s+d.cajas_2025,0);
+  const fa=fl.reduce((s,d)=>s+(d.fob_m[3]||0),0),ca=fl.reduce((s,d)=>s+(d.cajas_m[3]||0),0);
+  return{abril:{cajas:ca,precio:ca>0?fa/ca:0,fob:fa},ytd:{cajas:caj,cajas_ppto:cp,cajas_2025:c25,precio:caj>0?fob/caj:0,precio_ppto:cp>0?fp/cp:65,precio_2025:c25>0?f25/c25:0,fob:fob,fob_ppto:fp,fob_2025:f25}};
+}
+function cM(fl){
+  const isAll=aZ==='ALL'&&aM==='ALL';if(isAll)return MTL;
+  const f6=[0,0,0,0,0],c6=[0,0,0,0,0],fP=[0,0,0,0,0],cP=[0,0,0,0,0];
+  fl.forEach(d=>{const pm=d.fob_ppto/4,cm=d.cajas_ppto/4;for(let i=0;i<5;i++){f6[i]+=(d.fob_m[i]||0);c6[i]+=(d.cajas_m[i]||0);if(i<4){fP[i]+=pm;cP[i]+=cm;}}});
+  return{labels:MTL.labels,fob26:f6,fob25:MTL.fob25,fobP:fP,cajas26:c6,cajas25:MTL.cajas25,cajasP:cP,px26:f6.map((v,i)=>c6[i]>0?v/c6[i]:0),px25:MTL.px25};
+}
+function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');btn.classList.add('active');if(id==='estacionalidad')bEvol();if(id==='managers')rMgr();if(id==='insights')rIns();}
+function applyFilters(){aZ=document.getElementById('fZ').value;aM=document.getElementById('fM').value;const a=aZ==='ALL'&&aM==='ALL';document.getElementById('fnote').className='fnote'+(a?'':' on');uFC();rRes();if(document.getElementById('page-estacionalidad').classList.contains('active'))bEvol();if(document.getElementById('page-managers').classList.contains('active'))rMgr();if(document.getElementById('page-insights').classList.contains('active'))rIns();}
+function resetFilters(){aZ='ALL';aM='ALL';document.getElementById('fZ').value='ALL';document.getElementById('fM').value='ALL';applyFilters();}
+function uFC(){const c=getFl().length;document.getElementById('fcnt').textContent=c+' mercado'+(c!==1?'s':'');}
+function iFil(){const zs=[...new Set(MARKETS.map(d=>d.zona))].sort(),ms=[...new Set(MARKETS.map(d=>d.mgr))].sort();const zS=document.getElementById('fZ'),mS=document.getElementById('fM');zs.forEach(z=>{const o=document.createElement('option');o.value=z;o.textContent=z;zS.appendChild(o);});ms.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;mS.appendChild(o);});uFC();}
+function sb(id,cls,txt){const el=document.getElementById(id);el.className='badge '+cls;el.textContent=txt;}
+function rRes(){
+  const fl=getFl(),T=cT(fl),{ytd,abril}=T;
+  document.getElementById('k-ca').textContent=f(abril.cajas,0);
+  document.getElementById('k-pa').textContent=abril.precio>0?'$'+abril.precio.toFixed(2):'—';
+  document.getElementById('k-fa').textContent=abril.fob>0?'$'+f(abril.fob,0):'$0';
+  document.getElementById('k-cy').textContent=f(ytd.cajas,0);
+  document.getElementById('k-py').textContent='$'+ytd.precio.toFixed(2);
+  document.getElementById('k-fy').textContent='$'+f(ytd.fob,0);
+  const cd=ytd.cajas-ytd.cajas_ppto,cp=ytd.cajas_ppto>0?cd/ytd.cajas_ppto*100:0;
+  const fd=ytd.fob-ytd.fob_ppto,fp=ytd.fob_ppto>0?fd/ytd.fob_ppto*100:0;
+  const f25d=ytd.fob-ytd.fob_2025,f25p=ytd.fob_2025>0?f25d/ytd.fob_2025*100:0;
+  const pd=ytd.precio-ytd.precio_ppto,p25d=ytd.precio_2025>0?ytd.precio-ytd.precio_2025:0;
+  sb('k-ca2',cl(cd),(cd>=0?'▲ +':'▼ ')+f(Math.abs(cd),0)+' cj vs Ppto');
+  sb('k-cp',cl(cp),ps(cp)+' vs Ppto');
+  sb('k-pp',pd>=0?'green':'yellow',(pd>=0?'+':'')+pd.toFixed(2)+' vs Ppto $'+ytd.precio_ppto.toFixed(2));
+  sb('k-p25',cl(p25d),(p25d>=0?'▲ +':'▼ ')+Math.abs(p25d).toFixed(2)+' vs 2025 $'+ytd.precio_2025.toFixed(2));
+  sb('k-fp',cl(fp),ps(fp)+' vs Ppto');
+  sb('k-f25',cl(f25p),ps(f25p)+' vs 2025');
+  const isAll=aZ==='ALL'&&aM==='ALL';
+  let co='';
+  if(isAll){co=`En la <strong>Semana ${SEMANA}</strong>, Kaiken acumula <strong>$${f(ytd.fob,0)}</strong> en FOB — un desvío de <strong>${fp.toFixed(1)}%</strong> respecto al plan y <strong>${f25p.toFixed(1)}%</strong> vs igual período 2025. Con <strong>${f(ytd.cajas,0)} cajas</strong> despachadas y un precio promedio de <strong>$${ytd.precio.toFixed(2)}/caja</strong>, el resultado acumulado es heterogéneo: Asia y Europa del Este traccionan por encima del presupuesto, mientras América del Sur y el portafolio premium de USA continúan por debajo de las metas. <span style="color:var(--gr)">Japón e Inglaterra concentran el 26% del FOB total cada uno.</span> <span style="color:var(--re)">Brasil y USA acumulan el mayor desvío absoluto respecto al plan.</span>`;}
+  else{const tag=aM!=='ALL'?aM:aZ;co=`Vista filtrada por <strong>${tag}</strong>: <strong>${f(ytd.cajas,0)} cajas</strong> acumuladas · FOB <strong>$${f(ytd.fob,0)}</strong> · <span style="color:${fp>=0?'var(--gr)':'var(--re)'}">${fp>=0?'▲ +':'▼ '}${Math.abs(fp).toFixed(1)}%</span> vs presupuesto · Precio promedio <strong>$${ytd.precio.toFixed(2)}/caja</strong>.`;}
+  document.getElementById('callout').innerHTML=co;
+  rTop(fl);
+}
+const ISO={'Usa':'us','Inglaterra':'gb','Brasil':'br','Canada':'ca','Alemania':'de','Japón':'jp','Holanda':'nl','Finlandia':'fi','Indonesia':'id','Emiratos':'ae','Hungría':'hu','Argentina':'ar','Brasil (JPV)':'br','Polonia':'pl','Malasia':'my','Corea':'kr','Chipre':'cy','Eslovaquia':'sk','China':'cn','Tahití':'pf','México':'mx','Costa Rica':'cr','Panamá':'pa','Islas Cayman':'ky','Saint Marteen':'sx','Singapur':'sg','Turismo':'cl','Ucrania':'ua','Maldivas':'mv'};
+function flagImg(mercado){const c=ISO[mercado]||'';return c?`<img src="https://flagcdn.com/20x15/${c}.png" width="20" height="15" style="vertical-align:middle;margin-right:5px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)" alt="${c}">`:'';}
+function rTop(fl){
+  const sorted=[...fl].sort((a,b)=>b.ppto_anual-a.ppto_anual);
+  const tb=document.getElementById('t10b');tb.innerHTML='';
+  sorted.slice(0,10).forEach((m,i)=>{
+    const vp=m.fob_ppto>0?(m.fob_ytd-m.fob_ppto)/m.fob_ppto*100:null;
+    const v25=m.fob_2025>0?(m.fob_ytd-m.fob_2025)/m.fob_2025*100:null;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${i+1}</td><td><strong>${flagImg(m.mercado)}${m.mercado}</strong></td><td class="r">${f(m.cajas_ytd,0)}</td><td class="r">$${f(m.fob_ytd,0)}</td><td>${vp!==null?`<span class="badge ${cl(vp)}">${ps(vp)}</span>`:'—'}</td><td>${v25!==null?`<span class="badge ${cl(v25)}">${ps(v25)}</span>`:'<span class="badge gray">Sin base</span>'}</td><td class="r">$${m.precio_ytd.toFixed(2)}</td>`;
+    tb.appendChild(tr);
+  });
+}
+function bEvol(){const M=cM(getFl());rECards(M);bFM(M);bCM(M);bPM(M);bFA(M);}
+function rECards(M){const el=document.getElementById('ecds');el.innerHTML='';M.labels.forEach((mes,i)=>{const f6=M.fob26[i],f5=M.fob25[i],vp=f5>0?(f6-f5)/f5*100:0,p=mes==='Mayo';el.innerHTML+=`<div class="ecd${p?' part':''}" style="border-top-color:${vp>=0?'var(--gr)':'var(--re)'}"><div class="el">${mes} · FOB${p?' ⟳ Parcial':''}</div><div class="ev">$${f(f6,0)}</div><div class="kbs"><span class="badge ${vp>=0?'green':'red'}">${vp>=0?'▲ +':'▼ '}${Math.abs(vp).toFixed(1)}% vs 2025</span></div></div>`;});}
+function dC(k){if(CH[k]){CH[k].destroy();delete CH[k];}}
+function bFC(k,c,cfg){dC(k);CH[k]=new Chart(c,cfg);}
+const cO=(yf)=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom'},datalabels:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:yf},grid:{drawBorder:false}}}});
+function bFM(M){bFC('fM',document.getElementById('cFM'),{type:'bar',data:{labels:M.labels,datasets:[{label:'2026',data:M.fob26,backgroundColor:'rgba(240,124,26,.80)',borderColor:'#F07C1A',borderWidth:1},{label:'Presupuesto',data:M.fobP,backgroundColor:'rgba(156,144,136,.45)',borderColor:'#9C9088',borderWidth:1}]},options:cO(v=>'$'+(v/1000).toFixed(0)+'K')});}
+function bCM(M){bFC('cM',document.getElementById('cCM'),{type:'bar',data:{labels:M.labels,datasets:[{label:'2026',data:M.cajas26,backgroundColor:'rgba(240,124,26,.80)',borderColor:'#F07C1A',borderWidth:1},{label:'Presupuesto',data:M.cajasP,backgroundColor:'rgba(156,144,136,.45)',borderColor:'#9C9088',borderWidth:1}]},options:cO(v=>f(v,0))});}
+function bPM(M){bFC('pM',document.getElementById('cPM'),{type:'line',data:{labels:M.labels,datasets:[{label:'2026',data:M.px26,borderColor:'#F07C1A',backgroundColor:'rgba(240,124,26,.08)',fill:true,tension:.3,pointRadius:5,borderWidth:2.5},{label:'2025',data:M.px25,borderColor:'#9C9088',fill:false,tension:.3,pointRadius:4,borderWidth:2,borderDash:[4,4]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom'},datalabels:{display:false}},scales:{y:{beginAtZero:false,ticks:{callback:v=>'$'+v.toFixed(0)},grid:{drawBorder:false}}}}});}
+function bFA(M){const ac=a=>a.reduce((r,v,i)=>{r.push((r[i-1]||0)+v);return r;},[]);bFC('fA',document.getElementById('cFA'),{type:'line',data:{labels:M.labels,datasets:[{label:'2026 Real',data:ac(M.fob26),borderColor:'#F07C1A',backgroundColor:'rgba(240,124,26,.07)',fill:true,tension:.3,borderWidth:2.5,pointRadius:4},{label:'Presupuesto',data:ac(M.fobP),borderColor:'#9C9088',fill:false,tension:.3,borderWidth:2,pointRadius:4,borderDash:[5,5]},{label:'2025',data:ac(M.fob25),borderColor:'#B0A8A0',fill:false,tension:.3,borderWidth:1.5,pointRadius:3,borderDash:[3,3]}]},options:cO(v=>'$'+(v/1e6).toFixed(1)+'M')});}
+function rMgr(){
+  const fl=getFl();
+  const ce=document.getElementById('mgc'),be=document.getElementById('mgb');ce.innerHTML='';be.innerHTML='';
+  const srt=[...MANAGERS].filter(m=>aM==='ALL'||m.n===aM).sort((a,b)=>b.fy-a.fy);
+  srt.forEach(m=>{
+    const col=MC[m.n]||'#6D6560';
+    const fvp=m.fp>0?(m.fy-m.fp)/m.fp*100:0,cvp=m.cp>0?(m.cy-m.cp)/m.cp*100:0;
+    const fv25=m.f25>0?(m.fy-m.f25)/m.f25*100:null,cv25=m.c25>0?(m.cy-m.c25)/m.c25*100:null;
+    const pr=m.pa>0?Math.min(m.fy/m.pa*100,120):0,pc=fvp>=0?'#1a7a4a':fvp>=-20?'#d4a574':'#a01515';
+    const vs25=fv25!==null?`<span class="badge ${cl(fv25)}">${fv25>=0?'▲ +':'▼ '}${Math.abs(fv25).toFixed(1)}% vs 2025</span>`:`<span class="badge gray">Sin base 2025</span>`;
+    const card=document.createElement('div');card.className='mc';
+    card.innerHTML=`<div class="mch" style="background:${col}10"><div class="mav" style="background:${col}">${m.i}</div><div style="flex:1"><div class="mn">${m.n}</div><div class="mr">${m.z}</div></div><span class="ms" style="background:${fvp>=0?'#eaf7f0':'#fdf0f0'};color:${fvp>=0?'#1a7a4a':'#a01515'}">${fvp>=0?'▲ +':'▼ '}${Math.abs(fvp).toFixed(1)}%</span></div><div class="mb2"><div class="mkr"><div class="mk"><div class="mkv">${f(m.cy,0)}</div><div class="mkl">Cajas YTD</div></div><div class="mk"><div class="mkv" style="color:${col}">${m.fy>0?'$'+(m.fy/1000).toFixed(0)+'K':'$0'}</div><div class="mkl">FOB USD</div></div><div class="mk"><div class="mkv">${m.px>0?'$'+m.px.toFixed(2):'—'}</div><div class="mkl">$/Caja</div></div></div><div class="mpw"><div class="mpl"><span>Avance vs Ppto Anual</span><span style="font-weight:700;color:${pc}">${pr.toFixed(1)}%</span></div><div class="mpt"><div class="mpf" style="width:${Math.min(pr,100)}%;background:${pc}"></div></div></div><div class="mbg"><span class="badge ${cl(fvp)}">${fvp>=0?'▲ +':'▼ '}${Math.abs(fvp).toFixed(1)}% FOB vs Ppto</span>${vs25}</div><div class="mmk">${m.mkts.join(' · ')}</div></div>`;
+    ce.appendChild(card);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong style="color:${col}">${m.n}</strong></td><td class="r">${f(m.cy,0)}</td><td class="r" style="color:${cvp>=0?'var(--gr)':'var(--re)'};font-weight:600">${cvp>=0?'+':''}${cvp.toFixed(1)}%</td><td class="r" style="color:${cv25!==null?(cv25>=0?'var(--gr)':'var(--re)'):'var(--tl)'}">${cv25!==null?(cv25>=0?'+':'')+cv25.toFixed(1)+'%':'—'}</td><td class="r">${m.px>0?'$'+m.px.toFixed(2):'—'}</td><td class="r">$${f(m.fy,0)}</td><td class="r">$${f(m.fp,0)}</td><td class="r" style="font-weight:600;color:${fvp>=0?'var(--gr)':'var(--re)'}">${fvp>=0?'+':''}${fvp.toFixed(1)}%</td><td class="r" style="color:${fv25!==null?(fv25>=0?'var(--gr)':'var(--re)'):'var(--tl)'}">${fv25!==null?(fv25>=0?'+':'')+fv25.toFixed(1)+'%':'—'}</td>`;
+    be.appendChild(tr);
+  });
+}
+function rIns(){
+  const fl=getFl(),T=cT(fl),{ytd}=T;
+  const isAll=aZ==='ALL'&&aM==='ALL';
+  const fd=ytd.fob-ytd.fob_ppto,fp=ytd.fob_ppto>0?fd/ytd.fob_ppto*100:0;
+  const f25p=ytd.fob_2025>0?(ytd.fob-ytd.fob_2025)/ytd.fob_2025*100:0;
+  const sb=isAll?`El portafolio de exportación acumula <strong>$${f(ytd.fob,0)}</strong> en FOB — un desvío de <strong>${fp.toFixed(1)}%</strong> vs plan, con precio promedio de <strong>$${ytd.precio.toFixed(2)}/caja</strong> por debajo del objetivo de $${ytd.precio_ppto.toFixed(2)}. Asia opera con solidez y Europa del Este supera las metas; las regiones de América aún no recuperan el ritmo comercial previsto.`:`Filtrado: <strong>$${f(ytd.fob,0)}</strong> FOB · <strong>${f(ytd.cajas,0)} cj</strong> · <strong>${fp.toFixed(1)}%</strong> vs plan.`;
+  document.getElementById('isigb').innerHTML=sb;
+  document.getElementById('isigk').innerHTML=`<div class="ikb"><div class="ikv">$${(ytd.fob/1e6).toFixed(2)}M</div><div class="ikl">FOB YTD</div><div class="iks" style="color:${fp>=0?'#7bd4a8':'#f4a0a0'}">${fp>=0?'▲ +':'▼ '}${Math.abs(fp).toFixed(1)}% vs Plan</div></div><div class="ikb"><div class="ikv">${f(ytd.cajas,0)}</div><div class="ikl">Cajas YTD</div><div class="iks" style="color:rgba(255,255,255,.65)">de ${f(ytd.cajas_ppto,0)} presup.</div></div>`;
+  // Zona bars
+  const zz={};const tot=fl.reduce((s,d)=>s+d.fob_ytd,0)||1;
+  fl.forEach(d=>{zz[d.zona]=(zz[d.zona]||{fob:0,ppto:0});zz[d.zona].fob+=d.fob_ytd;zz[d.zona].ppto+=d.fob_ppto;});
+  const szz=Object.entries(zz).sort((a,b)=>b[1].fob-a[1].fob);
+  const mz=szz[0]?szz[0][1].fob:1;
+  const zcl={'Europa':'#4A7C8E','Asia':'#D4601A','N. America':'#5E8A5E','S. America':'#B07A2B','Medio Oriente':'#8B5C9E','Oceania':'#556B8D','Caribe':'#C44569','C. America':'#6B705C','Chile':'#7B8794'};
+  document.getElementById('zrows').innerHTML=szz.map(([z,d])=>{const pt=(d.fob/tot*100),pb=(d.fob/mz*100),c=zcl[z]||'#888',vp=d.ppto>0?(d.fob-d.ppto)/d.ppto*100:0;return`<div class="zrow"><div class="znm">${z}</div><div class="ztr"><div class="zfi" style="width:${pb}%;background:${c}"></div></div><div class="zfo">$${(d.fob/1000).toFixed(0)}K</div><div class="zpt" style="color:${vp>=0?'var(--gr)':'var(--re)'}">${pt.toFixed(1)}% <span style="font-size:9px">${vp>=0?'+':''}${vp.toFixed(0)}%P</span></div></div>`;}).join('');
+  // Wins & Risks
+  const wins=[...fl].filter(d=>d.fob_ppto>0&&d.fob_ytd>d.fob_ppto).sort((a,b)=>(b.fob_ytd/b.fob_ppto)-(a.fob_ytd/a.fob_ppto));
+  const risks=[...fl].filter(d=>d.fob_ppto>0&&d.fob_ytd<d.fob_ppto).sort((a,b)=>(a.fob_ytd/a.fob_ppto)-(b.fob_ytd/b.fob_ppto));
+  document.getElementById('iwins').innerHTML=wins.slice(0,6).map(m=>{const vp=(m.fob_ytd-m.fob_ppto)/m.fob_ppto*100;const note=vp>100?`Superó presupuesto anual: ${(m.fob_ytd/m.fob_ppto*100).toFixed(0)}% ejecutado en 4 meses`:vp>50?`Ritmo excepcional — ${f(m.cajas_ytd,0)} cj · $${m.precio_ytd.toFixed(0)}/cj`:`${f(m.cajas_ytd,0)} cj · $${m.precio_ytd.toFixed(0)}/cj prom.`;return`<div class="irow"><span class="iflag">${flagImg(m.mercado)}</span><div style="flex:1"><div class="iname">${m.mercado}</div><span class="isub">${note}</span></div><span class="ival" style="background:var(--gb);color:var(--gr)">+${vp.toFixed(1)}%</span></div>`;}).join('');
+  document.getElementById('irisks').innerHTML=risks.slice(0,6).map(m=>{const vp=(m.fob_ytd-m.fob_ppto)/m.fob_ppto*100;const gap=m.fob_ppto-m.fob_ytd;const note=vp<-60?`Déficit crítico — −$${(gap/1000).toFixed(0)}K vs plan acumulado`:vp<-30?`Bajo rendimiento sostenido · −$${(gap/1000).toFixed(0)}K acumulado`:`${f(m.cajas_ytd,0)} cj de ${f(m.cajas_ppto,0)} presupuestadas`;return`<div class="irow"><span class="iflag">${flagImg(m.mercado)}</span><div style="flex:1"><div class="iname">${m.mercado}</div><span class="isub">${note}</span></div><span class="ival" style="background:var(--rb);color:var(--re)">${vp.toFixed(1)}%</span></div>`;}).join('');
+  // Price grid
+  const tp=[...fl].sort((a,b)=>b.precio_ytd-a.precio_ytd).slice(0,2);
+  const lp=[...fl].filter(m=>m.cajas_ytd>100).sort((a,b)=>a.precio_ytd-b.precio_ytd).slice(0,2);
+  document.getElementById('ipxg').innerHTML=`<div class="ipxb"><div class="ipxv">$${ytd.precio.toFixed(2)}</div><div class="ipxl">Precio prom. YTD</div><div class="ipxn" style="color:${ytd.precio>=ytd.precio_ppto?'var(--gr)':'var(--re)'}">${(ytd.precio-ytd.precio_ppto)>=0?'+':''}${(ytd.precio-ytd.precio_ppto).toFixed(2)} vs Ppto $${ytd.precio_ppto.toFixed(2)}</div></div><div class="ipxb"><div class="ipxv" style="color:var(--gr)">$${tp[0]?tp[0].precio_ytd.toFixed(2):'—'}</div><div class="ipxl">Mayor precio unitario</div><div class="ipxn" style="color:var(--ts)">${tp.map(m=>flagImg(m.mercado)+m.mercado).join(' · ')}</div></div><div class="ipxb"><div class="ipxv" style="color:var(--re)">$${lp[0]?lp[0].precio_ytd.toFixed(2):'—'}</div><div class="ipxl">Menor precio unitario</div><div class="ipxn" style="color:var(--ts)">${lp.map(m=>flagImg(m.mercado)+m.mercado).join(' · ')||'—'}</div></div><div class="ipxb"><div class="ipxv">$${ytd.precio_2025>0?ytd.precio_2025.toFixed(2):'—'}</div><div class="ipxl">Precio YTD 2025</div><div class="ipxn" style="color:${ytd.precio_2025>0&&ytd.precio>=ytd.precio_2025?'var(--gr)':'var(--re)'}">${ytd.precio_2025>0?((ytd.precio-ytd.precio_2025)>=0?'+':'')+(ytd.precio-ytd.precio_2025).toFixed(2)+' interanual':'—'}</div></div>`;
+}
+window.addEventListener('load',()=>{document.getElementById('hdr-s').textContent=SEMANA;document.getElementById('slbl').textContent='SEMANA '+SEMANA;iFil();rRes();rIns();});
+</script>
+</body>
+</html>
