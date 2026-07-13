@@ -131,7 +131,7 @@ select:focus{outline:none;border-color:var(--wg-mid);}
 <div class="hdr">
   <div class="hdr-brand"><h1>Kaiken</h1><p>Proyección de Ventas</p></div>
   <div class="hdr-meta">
-    <div class="hdr-mi"><span class="hdr-ml">Período</span><span class="hdr-mv" id="hdr-p">YTD al 6 de Julio 2026</span></div>
+    <div class="hdr-mi"><span class="hdr-ml">Período</span><span class="hdr-mv" id="hdr-p">YTD al 13 de Julio 2026</span></div>
   </div>
 
 </div>
@@ -209,7 +209,7 @@ select:focus{outline:none;border-color:var(--wg-mid);}
   </div>
 </div>
 <script>
-const SEMANA=28;
+const SEMANA=29;
 const MARKETS=[
   {zona:'N. America',  mercado:'Usa',          flag:'🇺🇸',mgr:'Ana Correas',        ppto_anual:13940.08,cajas_ytd:4803.5, cajas_2025:10453.5,cajas_ppto:8171.77,precio_ytd:69.92,fob_ytd:335848.99,fob_ppto:539291.39,fob_2025:775958.08,fob_m:[64890,35959,100273,0,0,85946.54,48780.73,0],cajas_m:[700,700,1231,0,0,1387,785.5,0]},
   {zona:'Europa',      mercado:'Inglaterra',    flag:'🇬🇧',mgr:'Julieta Piccolella',ppto_anual:13200.10,cajas_ytd:10762.5,cajas_2025:7425.5,cajas_ppto:7737.99,precio_ytd:55.23,fob_ytd:594384.89,fob_ppto:397364.68,fob_2025:355493.31,fob_m:[96694,54086,44325,131089,80676.76,108121.5,79392.61,0],cajas_m:[1520,1232,891,2241,1807.5,1820,1252,0]},
@@ -217,14 +217,14 @@ const MARKETS=[
   {zona:'N. America',  mercado:'Canada',        flag:'🇨🇦',mgr:'Isidora Rodriguez', ppto_anual:11838.98,cajas_ytd:6852,  cajas_2025:5978,  cajas_ppto:6940.09,precio_ytd:61.69,fob_ytd:422715.96,fob_ppto:436168.68,fob_2025:376073.31,fob_m:[127835,33981,55205,44622,81331.97,46245.46,33496.28,0],cajas_m:[2002,560,854,728,1448,700,560,0]},
   {zona:'Europa',      mercado:'Alemania',      flag:'🇩🇪',mgr:'Julieta Piccolella',ppto_anual:10520.88,cajas_ytd:5208,  cajas_2025:11882.5,cajas_ppto:6167.41,precio_ytd:53.65,fob_ytd:279399.26,fob_ppto:337224.58,fob_2025:773151.88,fob_m:[46796,55762,0,64625,112216.70,0,0,0],cajas_m:[840,1005,0,1365,1998,0,0,0]},
   {zona:'Asia',        mercado:'Japón',         flag:'🇯🇵',mgr:'Juan Yañez',         ppto_anual:9402.14, cajas_ytd:5180, cajas_2025:5385,  cajas_ppto:3890.54,precio_ytd:62.93,fob_ytd:325976.00,fob_ppto:248141.28,fob_2025:333814.52,fob_m:[47596,40807,44021,193552,0,0,0,0],cajas_m:[590,630,663,3298,0,0,0,0]},
-  {zona:'Europa',      mercado:'Holanda',       flag:'🇳🇱',mgr:'Julieta Piccolella',ppto_anual:6496.82, cajas_ytd:2542.5,cajas_2025:2213.8,cajas_ppto:3808.47,precio_ytd:61.28,fob_ytd:155796.35,fob_ppto:220903.44,fob_2025:124295.11,fob_m:[70299,0,0,39128,27339.52,0,19029.67,0],cajas_m:[1278,0,0,573,397.5,0,295,0]},
+  {zona:'Europa',      mercado:'Holanda',       flag:'🇳🇱',mgr:'Julieta Piccolella',ppto_anual:6496.82, cajas_ytd:2997.5,cajas_2025:2213.8,cajas_ppto:3808.47,precio_ytd:60.13,fob_ytd:180229.41,fob_ppto:220903.44,fob_2025:124295.11,fob_m:[70299,0,0,39128,27339.52,0,43462.73,0],cajas_m:[1278,0,0,573,397.5,0,750,0]},
   {zona:'Europa',      mercado:'Finlandia',     flag:'🇫🇮',mgr:'Julieta Piccolella',ppto_anual:5219.92, cajas_ytd:3180, cajas_2025:2980,  cajas_ppto:3059.95,precio_ytd:51.75,fob_ytd:164579.12,fob_ppto:156521.38, fob_2025:151169.59, fob_m:[0,51734,0,59723,0,0,53122.14,0],cajas_m:[0,1000,0,1090,0,0,1090,0]},
   {zona:'Asia',        mercado:'Indonesia',     flag:'🇮🇩',mgr:'Juan Yañez',         ppto_anual:3032.02, cajas_ytd:802,  cajas_2025:897,   cajas_ppto:1516.01, precio_ytd:60.84,fob_ytd:48790.58, fob_ppto:91463.79, fob_2025:56167.13, fob_m:[0,0,0,0,48790.58,0,0,0],            cajas_m:[0,0,0,0,802,0,0,0]},
   {zona:'Medio Oriente',mercado:'Emiratos',     flag:'🇦🇪',mgr:'Juan Yañez',         ppto_anual:2756.96, cajas_ytd:992.5,cajas_2025:1632.5, cajas_ppto:1616.15, precio_ytd:80.34,fob_ytd:79741.75, fob_ppto:141238.18,fob_2025:146143.90,fob_m:[27778,0,0,0,0,25685.45,34779.35,0], cajas_m:[318,0,0,0,0,382.5,400,0]},
   {zona:'Medio Oriente',mercado:'Qatar',         flag:'🇶🇦',mgr:'Juan Yañez',         ppto_anual:276.07,  cajas_ytd:400,   cajas_2025:450,   cajas_ppto:161.22, precio_ytd:47.74,fob_ytd:19096.00, fob_ppto:7696.03, fob_2025:21483.00, fob_m:[0,0,0,0,0,0,19096,0],       cajas_m:[0,0,0,0,0,0,400,0]},
   {zona:'Europa',      mercado:'Hungría',       flag:'🇭🇺',mgr:'Juan Pablo Velasco',ppto_anual:2605.26, cajas_ytd:1909.50, cajas_2025:1311.8,cajas_ppto:1302.63, precio_ytd:67.07,fob_ytd:128063.08,fob_ppto:83122.41, fob_2025:77239.59, fob_m:[84587,0,0,43476,0,0,0,0],      cajas_m:[1261,0,0,649,0,0,0,0]},
   {zona:'S. America',  mercado:'Argentina',     flag:'🇦🇷',mgr:'Jorge Muñoz',        ppto_anual:7049.90, cajas_ytd:1365.67,cajas_2025:3654.19,cajas_ppto:4132.70,precio_ytd:63.91,fob_ytd:87282.74,fob_ppto:245683.71,fob_2025:215044.32,fob_m:[3588,16079,12610,21889,18925.23,14065.93,0,0],cajas_m:[65,270,275,302,245,210,0,0]},
-  {zona:'S. America',  mercado:'Brasil (JPV)',  flag:'🇧🇷',mgr:'Juan Pablo Velasco',ppto_anual:1952.24, cajas_ytd:376,  cajas_2025:706.5, cajas_ppto:976.12, precio_ytd:60.05,fob_ytd:22580.62, fob_ppto:70312.00, fob_2025:42795.20, fob_m:[22581,0,0,0,0,0,0,0],         cajas_m:[376,0,0,0,0,0,0,0]},
+  {zona:'S. America',  mercado:'Brasil (JPV)',  flag:'🇧🇷',mgr:'Juan Pablo Velasco',ppto_anual:1952.24, cajas_ytd:564.5,cajas_2025:706.5, cajas_ppto:1144.42,precio_ytd:57.82,fob_ytd:32640.00, fob_ppto:82434.76, fob_2025:42795.20, fob_m:[22581,0,0,0,0,0,10059.38,0],  cajas_m:[376,0,0,0,0,0,188.5,0]},
   {zona:'Europa',      mercado:'Polonia',       flag:'🇵🇱',mgr:'Juan Pablo Velasco',ppto_anual:1153.96, cajas_ytd:980,  cajas_2025:140,   cajas_ppto:576.98, precio_ytd:79.45,fob_ytd:77864.97, fob_ppto:37781.90, fob_2025:5961.80,  fob_m:[0,0,74949,0,0,2915.99,0,0],   cajas_m:[0,0,910,0,0,70,0,0]},
   {zona:'Asia',        mercado:'Malasia',       flag:'🇲🇾',mgr:'Juan Yañez',         ppto_anual:892.76,  cajas_ytd:1038.5,  cajas_2025:267.25,cajas_ppto:446.38, precio_ytd:83.93,fob_ytd:87160.30, fob_ppto:33090.51, fob_2025:27328.90, fob_m:[6791,0,0,27315,34034,19020.6,0,0],cajas_m:[81,0,0,300,447.5,210,0,0]},
   {zona:'Asia',        mercado:'Corea',         flag:'🇰🇷',mgr:'Juan Yañez',         ppto_anual:1616.94, cajas_ytd:3857, cajas_2025:150,   cajas_ppto:808.47, precio_ytd:55.22,fob_ytd:212978.48,fob_ppto:56383.27, fob_2025:6615.00,  fob_m:[58990,0,85013,0,19845,49130.5,0,0],cajas_m:[1202,0,1480,0,500,675,0,0]},
@@ -265,11 +265,11 @@ const MARKETS=[
   {zona:'S. America', mercado:'Perú',          flag:'🇵🇪',mgr:'Jorge Muñoz',        ppto_anual:1140.14, cajas_ytd:252.5, cajas_2025:289.33,cajas_ppto:668.36, precio_ytd:71.87,fob_ytd:18146.00, fob_ppto:47598.63, fob_2025:17514.10,  fob_m:[0,0,0,0,0,0,18146,0],       cajas_m:[0,0,0,0,0,0,252.5,0]},
 ];
 const MANAGERS=[
-  {n:'Julieta Piccolella',i:'JP',cy:24532,fy:1397329,fp:1881113,f25:1907172,cp:31178,c25:30649,px:56.96,pa:4424700,mkts:['Inglaterra','Alemania','Finlandia','Holanda','Brasil','Suecia'],z:'Europa + S.America'},
+  {n:'Julieta Piccolella',i:'JP',cy:24987,fy:1421762,fp:1881113,f25:1907172,cp:31178,c25:30649,px:56.90,pa:4424700,mkts:['Inglaterra','Alemania','Finlandia','Holanda','Brasil','Suecia'],z:'Europa + S.America'},
   {n:'Juan Yañez',        i:'JY',cy:13627, fy:864654, fp:873631, f25:792662, cp:12988, c25:11806,px:63.45,pa:2048900,mkts:['Japón','Corea','Indonesia','Malasia','Emiratos','Tailandia','Cambodia','+ más'],z:'Asia + Medio Oriente'},
   {n:'Isidora Rodriguez', i:'IR',cy:7553,  fy:465005, fp:483836, f25:411377, cp:7813,  c25:6621, px:61.57,pa:1196300,mkts:['Canadá','Maldivas','Ucrania','Estonia'],z:'N. America + Eur. Este'},
   {n:'Ana Correas',       i:'AC',cy:5719,  fy:472829, fp:719514, f25:927836, cp:9101,  c25:11151,px:82.67,pa:1744000,mkts:['USA','México','Turismo'],z:'N. America + C. America'},
-  {n:'Juan Pablo Velasco',i:'JPV',cy:5589, fy:362331, fp:339630, f25:247541, cp:5480,  c25:4501, px:64.83,pa:735300, mkts:['Hungría','Polonia','Chipre','Eslovaquia','Malta','Croacia','+ más'],z:'Europa Central'},
+  {n:'Juan Pablo Velasco',i:'JPV',cy:5778, fy:372390, fp:339630, f25:247541, cp:5480,  c25:4501, px:64.45,pa:735300, mkts:['Hungría','Polonia','Chipre','Eslovaquia','Malta','Croacia','+ más'],z:'Europa Central'},
   {n:'Patricia Osenga',   i:'PO',cy:2491,  fy:176453, fp:184132, f25:169233, cp:2688,  c25:2697, px:70.85,pa:342700, mkts:['Barbados','Costa Rica','Islas Vírgenes','Panamá','Cayman','+ 9 más'],z:'Caribe + C. America + Oceanía'},
   {n:'Jason Li',          i:'JL',cy:2245,  fy:148736, fp:48608,  f25:0,      cp:528,   c25:0,    px:66.25,pa:128600, mkts:['China'],z:'Asia (China)'},
   {n:'Jorge Muñoz',       i:'JM',cy:1694,  fy:113008, fp:340490, f25:249951, cp:5409,  c25:4140, px:66.70,pa:607200, mkts:['Argentina','Paraguay','Perú'],z:'S. America'},
@@ -277,12 +277,12 @@ const MANAGERS=[
   {n:'Evelyn Ramirez',    i:'ER',cy:767.5, fy:46413,  fp:66315,  f25:45075,  cp:950,   c25:623,  px:60.47,pa:226200, mkts:['Chile'],z:'Chile'},
 ];
 const MC={'Julieta Piccolella':'#4A7C8E','Juan Yañez':'#D4601A','Isidora Rodriguez':'#5E8A5E','Ana Correas':'#8B5C9E','Juan Pablo Velasco':'#2B6CB0','Patricia Osenga':'#B07A2B','Jason Li':'#C44569','Jorge Muñoz':'#6B705C','Daniela Rojas':'#7B8794','Evelyn Ramirez':'#556B8D'};
-const MTL={labels:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto'],fob26:[797644.83,440814.70,542871.89,667938.45,519866.04,544126.19,541962.72,32080.00],fob25:[639004.61,791876.89,661253.41,679222.36,722104.98,851596.25,851596.25,851596.25],fobP:[585079.54,731349.42,731349.42,731349.42,731349.42,731349.42,731349.42,731349.42],cajas26:[12140.68,7339.77,7850.94,10887.20,8893.70,8175.89,9036.50,328.75],cajas25:[9550.62,12408.55,9349.71,12115.33,11366.50,11810.29,10422.05,10422.05],cajasP:[9000.95,11251.13,11251.13,11251.13,11251.13,11251.13,11251.13,11251.13],px26:[65.70,60.06,69.15,61.35,58.45,66.55,59.97,97.58],px25:[66.91,65.16,66.82,64.68,64.44,72.11,65.26,65.26]};
+const MTL={labels:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto'],fob26:[797644.83,440814.70,542871.89,667938.45,519866.04,544126.19,576455.16,32080.00],fob25:[639004.61,791876.89,661253.41,679222.36,722104.98,851596.25,851596.25,851596.25],fobP:[585079.54,731349.42,731349.42,731349.42,731349.42,731349.42,731349.42,731349.42],cajas26:[12140.68,7339.77,7850.94,10887.20,8893.70,8175.89,9680.00,328.75],cajas25:[9550.62,12408.55,9349.71,12115.33,11366.50,11810.29,10422.05,10422.05],cajasP:[9000.95,11251.13,11251.13,11251.13,11251.13,11251.13,11251.13,11251.13],px26:[65.70,60.06,69.15,61.35,58.45,66.55,59.55,97.58],px25:[66.91,65.16,66.82,64.68,64.44,72.11,65.26,65.26]};
 const ZONE_DATA={
-  'Europa':        {fob:1608174.22, ppto:1598252.57},
+  'Europa':        {fob:1632607.28, ppto:1598252.57},
   'Asia':          {fob:930301.63,  ppto:789964.84},
   'N. America':    {fob:758564.95,  ppto:975460.07},
-  'S. America':    {fob:390827.51,  ppto:1184645.10},
+  'S. America':    {fob:400886.89,  ppto:1184645.10},
   'C. America':    {fob:95466.70,   ppto:76236.78},
   'Caribe':        {fob:92917.04,   ppto:108240.16},
   'Medio Oriente': {fob:98837.75,   ppto:148934.21},
@@ -290,7 +290,7 @@ const ZONE_DATA={
   'Sin Zona':      {fob:7785.00,    ppto:0.00},
   'Chile':         {fob:46413.00,   ppto:66315.11},
 };
-const TALL={abril:{cajas:9036.50,precio:59.975,fob:541962.72},ytd:{cajas:64217.18,cajas_ppto:76507.73,cajas_2025:76270.68,precio:63.017,precio_ppto:65.002,precio_2025:65.259,fob:4046757.80,fob_ppto:4973176.06,fob_2025:4977369.29}};
+const TALL={abril:{cajas:9680.00,precio:59.551,fob:576455.16},ytd:{cajas:64860.68,cajas_ppto:76507.73,cajas_2025:76270.68,precio:62.923,precio_ppto:65.002,precio_2025:65.259,fob:4081250.24,fob_ppto:4973176.06,fob_2025:4977369.29}};
 let aZ='ALL',aM='ALL',CH={};
 const f=(n,d=0)=>(+n||0).toLocaleString('es-CL',{minimumFractionDigits:d,maximumFractionDigits:d});
 const fM=n=>Math.abs(n)>=1e6?'$'+(n/1e6).toLocaleString('es-CL',{minimumFractionDigits:2,maximumFractionDigits:2})+'M':Math.abs(n)>=1e3?'$'+(n/1e3).toLocaleString('es-CL',{minimumFractionDigits:0,maximumFractionDigits:0})+'K':'$'+f(n,0);
